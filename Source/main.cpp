@@ -29,14 +29,11 @@ int main()
 			}
       if(event.type == sf::Event::KeyReleased)
       {
-        if(game.movement == mega.rght)
-        {
-          game.movement = mega.idlerght;
-        }
-        else if(game.movement == mega.lft)
-        {
-          game.movement = mega.idlelft;
-        }
+        game.idle();
+      }
+      if(event.type == sf::Event::isKeyPressed(sf::Keyboard::Space))
+      {
+
       }
 		}
 

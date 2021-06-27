@@ -54,6 +54,12 @@ void Megaman::transition(int movtype)
 		case this->lft:
 			xframes = 4;
 			break;
+		case this->jmpl:
+			xframes = 1;
+			break;
+		case this->jmpr:
+			xframes = 1;
+			break;
 	}
 	if(this->currentimage.x+1 >= xframes) //Checks if Currentimage last in row
 	{
@@ -79,6 +85,17 @@ void Megaman::update(int movtype, sf::Time dt, float limit)
 		timer += dt;
 	}
 }
+void Megaman::collisioncheck(sf::RectangleShape rect)
+{
+	if(sprite.getGlobalBounds().intersects(rect.getGlobalBounds()))
+	{
+		onfloor = true;
+	}
+	else
+	{
+		onfloor = false;
+	}
+}
 
 void Megaman::selectRow(int row)
 {
@@ -91,10 +108,16 @@ void Megaman::selectRow(int row)
 			currentimage.y = 1;
 			break;
 		case this->idlerght:
-			currentimage.y = 2;
+			currentimage.y = 3;
 			break;
 		case this->idlelft:
-			currentimage.y = 3;
+			currentimage.y = 2;
+			break;
+		case this->jmpl:
+			currentimage.y = 4;
+			break;
+		case this->jmpr:
+			currentimage.y = 5;
 			break;
 	}
 }
