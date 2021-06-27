@@ -10,10 +10,14 @@ Mworld::Mworld(float chrspeed)
   speed = chrspeed; //Player speed
 }
 
-void Mworld::setup(Megaman& player)
+void Mworld::setup()
 {
-  player.setTexture("../Resources/megaman.png");
+  mega->setTexture("../Resources/lsheet.png");
+  // mega->selectRow(3);
+
 }
+
+
 
 void Mworld::handleInput(sf::Event event)
 {
@@ -25,10 +29,6 @@ void Mworld::handleInput(sf::Event event)
   }
 }
 
-void Mworld::setMegaReference(Megaman& player)
-{
-  mega& = player;
-}
 
 void Mworld::handleKey(sf::Keyboard::Key key)
 {
@@ -51,12 +51,23 @@ void Mworld::handleKey(sf::Keyboard::Key key)
   }
 }
 
-void Mworld::update(Megaman& player, sf::Time deltatime)
+void Mworld::cancelInput()
 {
-  movePlayer(player, deltatime);
+  up = false;
+  down = false;
+  left = false;
+  right = false;
+  jump = false;
 }
 
-void Mworld::movePlayer(Megaman& target, sf::Time deltatime)
+void Mworld::update(sf::Time deltatime)
+{
+  movePlayer(deltatime);
+  mega->update(mega->idlelft, deltatime, 2);
+  cancelInput();
+}
+
+void Mworld::movePlayer(sf::Time deltatime)
 	{
 		sf::Vector2f movement(0,0);
 		if(up)	//Gets which key is pressed and moves referenced sprite in consequence
@@ -72,7 +83,7 @@ void Mworld::movePlayer(Megaman& target, sf::Time deltatime)
 		{
 			movement.x += speed;
 		}
-		target.sprite.move(movement * deltatime.asSeconds()); //Distance = speed * time elapsed
+		mega->sprite.move(movement * deltatime.asSeconds()); //Distance = speed * time elapsed
 	}
 
 void Mworld::render(sf::RenderWindow& window)
