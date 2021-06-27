@@ -25,7 +25,10 @@ void Mworld::handleInput(sf::Event event)
   }
 }
 
-void setMegaReference
+void Mworld::setMegaReference(Megaman& player)
+{
+  mega& = player;
+}
 
 void Mworld::handleKey(sf::Keyboard::Key key)
 {
@@ -74,5 +77,6 @@ void Mworld::movePlayer(Megaman& target, sf::Time deltatime)
 
 void Mworld::render(sf::RenderWindow& window)
 {
-  window.draw()
+  window.draw(mega->sprite);
+  window.display();
 }
