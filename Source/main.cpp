@@ -7,7 +7,7 @@ using namespace std;
 
 int scrX = 2000;
 int scrY = 1600;
-Mworld game(50);
+Mworld game(500);
 Megaman mega(4,6);
 sf::RenderWindow window(sf::VideoMode(scrX, scrY), "Megaman");
 sf::Event event;
@@ -39,7 +39,7 @@ int main()
         }
       }
 		}
-    
+
     window.clear(sf::Color::White);
     dtime = clock.restart();
     game.handleInput(event);

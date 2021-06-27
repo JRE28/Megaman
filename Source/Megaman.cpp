@@ -22,6 +22,7 @@ bool Megaman::setTexture(string directory)
 		size = texture.getSize();
 		this->fwidth = size.x / imageCount.x; //Width of single frame (considering they're equal)
 		this->fheight = size.y / imageCount.y; //Height of single frame
+		sprite.setTextureRect(sf::IntRect(0, fheight*2, fwidth, fheight));
 		return true; //If everything went well, returns true
 	}
 	else
