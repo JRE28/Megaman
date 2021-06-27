@@ -24,7 +24,7 @@ private:
 	sf::Texture texture; //Player texture
 	void transition(int movtype); //Changes showed frame
 	sf::Time timer; //Internal timer for update functions
-	float fwidth, fheight; //Texture frame width and Height
+	int fwidth, fheight; //Texture frame width and Height
 	unsigned int xframes; //Number of frames in x a row has
 	int currentrow;
 };

@@ -70,7 +70,8 @@ void Megaman::update(int movtype, sf::Time dt, float limit)
 	if(timer >= sf::seconds(limit))
 	{
 		this->transition(movtype);
-		this->sprite.setTextureRect(sf::IntRect(fwidth*currentimage.x, fheight*currentrow, fwidth*(currentimage.x+1), fheight*(currentrow+1)));
+		this->sprite.setTextureRect(sf::IntRect(fwidth*currentimage.x, fheight*currentrow, fwidth, fheight));
+		cout << fwidth*currentimage.x << " " << fheight*currentimage.y << "|" << fwidth*(currentimage.x+1) << " " << fheight*(currentrow+1) << endl;
 		timer = sf::seconds(0);
 	}
 	else

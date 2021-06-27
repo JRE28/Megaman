@@ -63,7 +63,7 @@ void Mworld::cancelInput()
 void Mworld::update(sf::Time deltatime)
 {
   movePlayer(deltatime);
-  mega->update(mega->idlelft, deltatime, 2);
+  mega->update(mega->rght, deltatime, 2);
   cancelInput();
 }
 
