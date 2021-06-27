@@ -25,8 +25,7 @@ private:
 	void transition(int movtype); //Changes showed frame
 	sf::Time timer; //Internal timer for update functions
 	int fwidth, fheight; //Texture frame width and Height
-	unsigned int xframes; //Number of frames in x a row has
-	int currentrow;
+	unsigned int xframes; //Number of frames in x a row 	
 };
 
 

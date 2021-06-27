@@ -12,8 +12,7 @@ Mworld::Mworld(float chrspeed)
 
 void Mworld::setup()
 {
-  mega->setTexture("../Resources/lsheet.png");
-  // mega->selectRow(3);
+  mega->setTexture("../Resources/megaman.png");
 
 }
 
@@ -41,9 +40,11 @@ void Mworld::handleKey(sf::Keyboard::Key key)
       break;
     case sf::Keyboard::Left:
       left = true;
+      movement = mega->lft;
       break;
     case sf::Keyboard::Right:
      right = true;
+     movement = mega->rght;
      break;
     case sf::Keyboard::Space:
       jump = true;
@@ -63,7 +64,8 @@ void Mworld::cancelInput()
 void Mworld::update(sf::Time deltatime)
 {
   movePlayer(deltatime);
-  mega->update(mega->rght, deltatime, 2);
+
+  mega->update(movement, deltatime, 0.2);
   cancelInput();
 }
 

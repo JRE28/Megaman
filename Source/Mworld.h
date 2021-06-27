@@ -15,12 +15,14 @@ public:
   void render(sf::RenderWindow& window); //Renders on screen
   void cancelInput(); //Cancels input after releasing mouse
   float speed; //Player speed
+  int movement; //Moving direction depending on input
   Megaman* mega; //Pointer to megaman object
 private:
   void handleKey(sf::Keyboard::Key key); //(handleInput) Returns which arrow has been pressed
   void movePlayer(sf::Time deltatime); //(Update) Updates player movement
   void setBG(); //(Setup) Sets background
   bool up, down, left, right, jump; //Represent pressed key
+
 };
 
 #endif

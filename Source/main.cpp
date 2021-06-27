@@ -5,10 +5,10 @@
 #include "Mworld.h"
 using namespace std;
 
-int scrX = 1200;
-int scrY = 800;
+int scrX = 2000;
+int scrY = 1600;
 Mworld game(50);
-Megaman mega(4,4);
+Megaman mega(4,6);
 sf::RenderWindow window(sf::VideoMode(scrX, scrY), "Megaman");
 sf::Event event;
 
@@ -27,7 +27,19 @@ int main()
 			{
 					window.close();
 			}
+      if(event.type == sf::Event::KeyReleased)
+      {
+        if(game.movement == mega.rght)
+        {
+          game.movement = mega.idlerght;
+        }
+        else if(game.movement == mega.lft)
+        {
+          game.movement = mega.idlelft;
+        }
+      }
 		}
+    
     window.clear(sf::Color::White);
     dtime = clock.restart();
     game.handleInput(event);

@@ -66,12 +66,11 @@ void Megaman::transition(int movtype)
 
 void Megaman::update(int movtype, sf::Time dt, float limit)
 {
-	currentrow = 0;
+	selectRow(movtype);
 	if(timer >= sf::seconds(limit))
 	{
 		this->transition(movtype);
-		this->sprite.setTextureRect(sf::IntRect(fwidth*currentimage.x, fheight*currentrow, fwidth, fheight));
-		cout << fwidth*currentimage.x << " " << fheight*currentimage.y << "|" << fwidth*(currentimage.x+1) << " " << fheight*(currentrow+1) << endl;
+		this->sprite.setTextureRect(sf::IntRect(fwidth*currentimage.x, fheight*currentimage.y, fwidth, fheight));
 		timer = sf::seconds(0);
 	}
 	else
@@ -82,5 +81,19 @@ void Megaman::update(int movtype, sf::Time dt, float limit)
 
 void Megaman::selectRow(int row)
 {
-  currentimage.y = row-1;
+  switch(row)
+	{
+		case this->lft:
+			currentimage.y = 0;
+			break;
+		case this->rght:
+			currentimage.y = 1;
+			break;
+		case this->idlerght:
+			currentimage.y = 2;
+			break;
+		case this->idlelft:
+			currentimage.y = 3;
+			break;
+	}
 }
