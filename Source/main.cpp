@@ -23,6 +23,7 @@ int main()
   {
     while(window.pollEvent(event))
 		{
+
 			if(event.type == sf::Event::Closed)
 			{
 					window.close();
@@ -30,11 +31,10 @@ int main()
       if(event.type == sf::Event::KeyReleased)
       {
         game.idle();
-      }
-      if(event.type == sf::Event::isKeyPressed(sf::Keyboard::Space))
-      {
+        game.cancelInput();
 
       }
+
 		}
 
     window.clear(sf::Color::White);
@@ -42,5 +42,6 @@ int main()
     game.handleInput(event);
     game.update(dtime);
     game.render(window);
+
   }
 }

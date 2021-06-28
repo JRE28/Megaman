@@ -3,20 +3,23 @@
 #include <SFML/Audio.hpp>
 #include "Mworld.h"
 #include "Megaman.h"
+#include "ResourceHandler.h"
 using namespace std;
 
 Mworld::Mworld(float chrspeed)
 {
   speed = chrspeed; //Player speed
   zero = sf::seconds(0);
+  floating = false;
   timeonair = 0;
-  jumpforce = 30;
+  jumpforce = 900;
+  jumping = false;
+  gravityforce = 2;
 }
 
 void Mworld::setup()
 {
   mega->setTexture("../Resources/megaman.png");
-  mega->onfloor = false;
   floor.setSize(sf::Vector2f(1000,100));
   floor.setFillColor(sf::Color::Black);
   floor.setPosition(0, 700);
@@ -28,37 +31,31 @@ void Mworld::setup()
 
 void Mworld::handleInput(sf::Event event)
 {
-  switch(event.type)
+
+  if(event.type == sf::Event::KeyPressed)
   {
-    case sf::Event::KeyPressed:
-      handleKey(event.key.code);
-      break;
+    handleKey(event.key.code);
   }
 }
 
 
 void Mworld::handleKey(sf::Keyboard::Key key)
 {
-  switch(key)
+  if(key == sf::Keyboard::Left)
   {
-    case sf::Keyboard::Up:
-      up = true;
-    case sf::Keyboard::Down:
-      down = true;
-      break;
-    case sf::Keyboard::Left:
-      left = true;
-      movement = mega->lft;
-      break;
-    case sf::Keyboard::Right:
-     right = true;
-     movement = mega->rght;
-     break;
-    case sf::Keyboard::Space:
-      jump = true;
-      cout << "A";
-      break;
+    left = true;
+    movement = mega->lft;
   }
+  if(key == sf::Keyboard::LAlt)
+  {
+    jump = true;
+  }
+  if(key == sf::Keyboard::Right)
+  {
+    right = true;
+    movement = mega ->rght;
+  }
+
 }
 
 void Mworld::idle()
@@ -75,13 +72,33 @@ void Mworld::idle()
   }
 
 }
+
+void Mworld::cancelJump() {jump = false;}
+
+void Mworld::jmp(sf::Time dtime, float limit)
+{
+  if(mega->onfloor && jump)
+  {
+    jumping = true;
+  }
+  if(jumping)
+  {
+    gravityforce = 2;
+    mega->sprite.move(sf::Vector2f(0, -jumpforce) * dtime.asSeconds()); //Distance = speed * time elapsed
+    if(timeonair >= limit) //When time finishes, gravity comes back
+    {
+      jump = false;
+      gravityforce = 2;
+      jumping = false;
+    }
+  }
+}
+
 void Mworld::cancelInput()
 {
-  up = false;
   down = false;
   left = false;
   right = false;
-  jump = false;
 }
 
 void Mworld::timeLimit(int movtype)
@@ -94,14 +111,15 @@ void Mworld::timeLimit(int movtype)
 void Mworld::update(sf::Time deltatime)
 {
   mega->collisioncheck(floor);
-  gravity(2);
+  gravity(gravityforce);
+  jmp(deltatime, 0.1);
   movePlayer(deltatime);
   timeLimit(movement);
   mega->update(movement, deltatime, tlimit);
-  cancelInput();
+  cancelJump();
 }
 
-void Mworld::airtime()
+float Mworld::airtime()
 {
   if(!mega->onfloor)
   {
@@ -117,6 +135,7 @@ void Mworld::airtime()
     floating = false;
     timeonair = 0;
   }
+  return timeonair;
 }
 
 void Mworld::gravity(float accel)
@@ -128,10 +147,11 @@ void Mworld::gravity(float accel)
 void Mworld::movePlayer(sf::Time deltatime)
 	{
 		sf::Vector2f movement(0,0);
-		if(jump)	//Gets which key is pressed and moves referenced sprite in consequence
-		{
-			movement.y -= jumpforce;
-		}if(left)
+    if(jumping)
+    {
+      movement.y -= jumpforce;
+    }
+		if(left)
 		{
 			movement.x -= speed;
 		}if(right)
