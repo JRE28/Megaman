@@ -13,7 +13,7 @@ public:
   void handleInput(sf::Event event); //Gives a response depending on input
   void update(sf::Time deltatime); //Updates game logic
   void render(sf::RenderWindow& window); //Renders on screen
-  void cancelInput(); //Cancels input after releasing mouse
+  void cancelInput(sf::Keyboard::Key key); //Cancels input after releasing mouse
   void cancelJump(); //Jump = false
   void timeLimit(int movtype); //Determines time for specific animations
   void idle(); //Manages idle position
@@ -41,6 +41,7 @@ private:
   float jmptime;
   bool floating; //Logical boolean for air time and gravity
   bool jumping;
+  bool jumpidle; //Used to change frames after jumping
 
 
 };

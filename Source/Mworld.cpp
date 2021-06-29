@@ -12,7 +12,7 @@ Mworld::Mworld(float chrspeed)
   zero = sf::seconds(0);
   floating = false;
   timeonair = 0;
-  jumpforce = 900;
+  jumpforce = 400;
   jumping = false;
   gravityforce = 2;
 }
@@ -36,6 +36,22 @@ void Mworld::handleInput(sf::Event event)
   {
     handleKey(event.key.code);
   }
+  if(jumping && left)
+  {
+    movement = mega -> jmpl;
+  }
+  if(jumping && right)
+  {
+    movement = mega->jmpr;
+  }
+  if(jumping && (movement == mega->idlelft))
+  {
+    movement = mega->jmpl;
+  }
+  if(jumping && (movement == mega->idlerght))
+  {
+    movement = mega->jmpr;
+  }
 }
 
 
@@ -55,19 +71,20 @@ void Mworld::handleKey(sf::Keyboard::Key key)
     right = true;
     movement = mega ->rght;
   }
-
 }
 
 void Mworld::idle()
 {
-  if(movement == mega->rght)
+  if(movement == mega->rght || (movement == mega->jmpr && mega->onfloor))
   {
     movement = mega->idlerght;
+    right = false;
     mega->update(movement, zero, 0);
   }
-  else if(movement == mega->lft)
+  if(movement == mega->lft || (movement == mega->jmpl && mega->onfloor))
   {
     movement = mega->idlelft;
+    left = false;
     mega->update(movement, zero, 0);
   }
 
@@ -77,28 +94,44 @@ void Mworld::cancelJump() {jump = false;}
 
 void Mworld::jmp(sf::Time dtime, float limit)
 {
+  if(mega->onfloor)
+  {
+    jumping = false;
+    if(jumpidle)
+    {
+      idle();
+      jumpidle = false;
+    }
+  }
   if(mega->onfloor && jump)
   {
     jumping = true;
+    jumpidle = true;
   }
   if(jumping)
   {
+    mega->update(movement, zero, 0);
     gravityforce = 2;
     mega->sprite.move(sf::Vector2f(0, -jumpforce) * dtime.asSeconds()); //Distance = speed * time elapsed
     if(timeonair >= limit) //When time finishes, gravity comes back
     {
       jump = false;
       gravityforce = 2;
-      jumping = false;
     }
   }
 }
 
-void Mworld::cancelInput()
+void Mworld::cancelInput(sf::Keyboard::Key key)
 {
-  down = false;
-  left = false;
-  right = false;
+    switch(key)
+    {
+      case sf::Keyboard::Left:
+        left = false;
+        break;
+      case sf::Keyboard::Right:
+        right = false;
+        break;
+    }
 }
 
 void Mworld::timeLimit(int movtype)
@@ -112,11 +145,11 @@ void Mworld::update(sf::Time deltatime)
 {
   mega->collisioncheck(floor);
   gravity(gravityforce);
-  jmp(deltatime, 0.1);
+  jmp(deltatime, 0.5);
   movePlayer(deltatime);
-  timeLimit(movement);
   mega->update(movement, deltatime, tlimit);
-  cancelJump();
+  timeLimit(movement);
+
 }
 
 float Mworld::airtime()

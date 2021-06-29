@@ -31,7 +31,7 @@ int main()
       if(event.type == sf::Event::KeyReleased)
       {
         game.idle();
-        game.cancelInput();
+        game.cancelInput(event.key.code);
 
       }
 
