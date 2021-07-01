@@ -17,15 +17,6 @@ Mworld::Mworld(float chrspeed)
   gravityforce = 2;
 }
 
-void Mworld::setup()
-{
-  mega->setTexture("../Resources/megaman.png");
-  floor.setSize(sf::Vector2f(1000,100));
-  floor.setFillColor(sf::Color::Black);
-  floor.setPosition(0, 700);
-  floor.setOutlineColor(sf::Color::Red);
-  floor.setOutlineThickness(5);
-}
 
 
 
@@ -141,16 +132,6 @@ void Mworld::timeLimit(int movtype)
   else{tlimit = 0.2;}
 }
 
-void Mworld::update(sf::Time deltatime)
-{
-  mega->collisioncheck(floor);
-  gravity(gravityforce);
-  jmp(deltatime, 0.5);
-  movePlayer(deltatime);
-  mega->update(movement, deltatime, tlimit);
-  timeLimit(movement);
-
-}
 
 float Mworld::airtime()
 {
@@ -194,8 +175,39 @@ void Mworld::movePlayer(sf::Time deltatime)
 		mega->sprite.move(movement * deltatime.asSeconds()); //Distance = speed * time elapsed
 	}
 
+  void Mworld::setBG(string directory)
+  {
+    if(BGtexture.loadFromFile(directory))
+    {
+      BG.setTexture(BGtexture);
+      BG.setPosition(0,-4100);
+      BG.setScale(4, 4);
+    }
+  }
+  void Mworld::setup()
+  {
+    mega->setTexture("../Resources/megaman.png");
+    setBG("../Resources/Bombmanstage.png");
+    floor.setSize(sf::Vector2f(1000,100));
+    floor.setFillColor(sf::Color::Black);
+    floor.setPosition(0, 1000);
+    floor.setOutlineColor(sf::Color::Red);
+    floor.setOutlineThickness(5);
+  }
+
+  void Mworld::update(sf::Time deltatime)
+  {
+    mega->collisioncheck(floor);
+    gravity(gravityforce);
+    jmp(deltatime, 0.5);
+    movePlayer(deltatime);
+    mega->update(movement, deltatime, tlimit);
+    timeLimit(movement);
+
+  }
 void Mworld::render(sf::RenderWindow& window)
 {
+  window.draw(BG);
   window.draw(mega->sprite);
   window.draw(floor);
   window.display();

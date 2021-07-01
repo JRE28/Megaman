@@ -6,7 +6,7 @@
 using namespace std;
 
 int scrX = 2000;
-int scrY = 1600;
+int scrY = 1000;
 Mworld game(500);
 Megaman mega(4,6);
 sf::RenderWindow window(sf::VideoMode(scrX, scrY), "Megaman");

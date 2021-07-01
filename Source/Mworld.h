@@ -19,6 +19,7 @@ public:
   void idle(); //Manages idle position
   void jmp(sf::Time dtime, float limit); //Makes mega jump
   void gravity(float accel); //Creates a gravity field on player
+  void setBG(string directory); //(Setup) Sets background
   float airtime(); //Calculates time on air
   float speed; //Player speed
   int movement; //Moving direction depending on input
@@ -26,10 +27,11 @@ public:
   Megaman* mega; //Pointer to megaman object
   float timeonair; //(gravity)Time mega is on air after jumping or falling
   int gravityforce; //gravity force
+  sf::Sprite BG; //Background sprite
+  sf::Texture BGtexture; //Background texture
 private:
   void handleKey(sf::Keyboard::Key key); //(handleInput) Returns which arrow has been pressed
   void movePlayer(sf::Time deltatime); //(Update) Updates player movement
-  void setBG(); //(Setup) Sets background
   bool down, left; //Represent pressed key
   float tlimit; //Animation limit time
   float jumpforce; //Jump strength
