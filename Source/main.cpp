@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include "Megaman.h"
 #include "Mworld.h"
+#include "Map/Map.h"
 using namespace std;
 
 int scrX = 2000;

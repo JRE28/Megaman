@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Megaman.h"
+#include "Map/Map.h"
 using namespace std;
 
 class Mworld
@@ -19,7 +20,6 @@ public:
   void idle(); //Manages idle position
   void jmp(sf::Time dtime, float limit); //Makes mega jump
   void gravity(float accel); //Creates a gravity field on player
-  void setBG(string directory); //(Setup) Sets background
   float airtime(); //Calculates time on air
   float speed; //Player speed
   int movement; //Moving direction depending on input
